@@ -1,8 +1,6 @@
 package hnm.beans;
 
-import java.util.Date;
-
-
+import java.sql.Timestamp;;
 
 public class Request {
 	private int rId;
@@ -11,8 +9,8 @@ public class Request {
 	private String name;
 	private String description;
 	private int attenderId;
-	private Date submitTime;
-	private Date expiryTime;
+	private Timestamp submitTime;
+	private Timestamp expiryTime;
 	private String status;
 	private String remarks;
 	public int getrId() {
@@ -51,16 +49,16 @@ public class Request {
 	public void setAttenderId(int attenderId) {
 		this.attenderId = attenderId;
 	}
-	public Date getSubmitTime() {
+	public Timestamp getSubmitTime() {
 		return submitTime;
 	}
-	public void setSubmitTime(Date submitTime) {
+	public void setSubmitTime(Timestamp submitTime) {
 		this.submitTime = submitTime;
 	}
-	public Date getExpiryTime() {
+	public Timestamp getExpiryTime() {
 		return expiryTime;
 	}
-	public void setExpiryTime(Date expiryTime) {
+	public void setExpiryTime(Timestamp expiryTime) {
 		this.expiryTime = expiryTime;
 	}
 	public String getStatus() {

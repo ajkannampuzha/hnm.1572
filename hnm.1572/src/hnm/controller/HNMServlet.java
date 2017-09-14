@@ -13,11 +13,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import java.util.*;
 
 import hnm.beans.*;
 
-import org.apache.log4j.Logger;
+
 
 
 public class HNMServlet extends HttpServlet {
@@ -30,7 +32,7 @@ public class HNMServlet extends HttpServlet {
 		}else{
 			logger.info(request.getParameter("action"));
 			switch(request.getParameter("action")){
-		
+			
 			case "new request":{//if employee opts for a new request
 				if(request.getSession().getAttribute("categories")==null){
 					logger.debug("inside new category");
@@ -142,7 +144,6 @@ public class HNMServlet extends HttpServlet {
 				}
 			case "Show my Pending Requests":{
 				int attenderId=(Integer)request.getSession().getAttribute("userId");
-				//Request request1=HRModel.getRequestOfHR(attenderId);
 				List<Request> requests=HRModel.getRequestOfHR(attenderId);
 				if(requests.isEmpty()){
 					request.setAttribute("error", "no requests selected");
@@ -185,14 +186,16 @@ public class HNMServlet extends HttpServlet {
 				break;
 				}
 			case "logout":{//if someone logout
+				logger.info("inside logout");
 				request.getSession().invalidate();
 				response.sendRedirect("login.jsp");
+			}
 				break;
-				}
 			case "sort":{
 				String sortBasedOn=request.getParameter("sort");
 				List<Request> requests=EmployeeModel.getRequests((Integer)request.getSession().getAttribute("userId"));
 				List<Request> sortedRequests=EmployeeModel.sortRequests(requests,sortBasedOn);
+				request.setAttribute("jspAction", "view");
 				request.setAttribute("requests", sortedRequests);
 				request.getRequestDispatcher("/WEB-INF/jsp/employee.jsp").forward(request, response);
 				break;

@@ -56,12 +56,13 @@ public class DAO {
 				request.setcId(result.getInt("cId"));
 				request.setDescription(result.getString("description"));
 				request.seteId(result.getInt("eId"));
-				request.setExpiryTime(result.getDate("expiryTime"));
+				request.setExpiryTime(result.getTimestamp("expiryTime"));
 				request.setName(result.getString("name"));
 				request.setRemarks(result.getString("remarks"));
 				request.setrId(result.getInt("rId"));
 				request.setStatus(result.getString("status"));
-				request.setSubmitTime(result.getDate("submitTime"));
+				request.setSubmitTime(result.getTimestamp("submitTime"));
+			
 				
 				requests.add(request);
 			}
@@ -139,12 +140,12 @@ public class DAO {
 				request.setcId(result.getInt("cId"));
 				request.setDescription(result.getString("description"));
 				request.seteId(result.getInt("eId"));
-				request.setExpiryTime(result.getDate("expiryTime"));
+				request.setExpiryTime(result.getTimestamp("expiryTime"));
 				request.setName(result.getString("name"));
 				request.setRemarks(result.getString("remarks"));
 				request.setrId(result.getInt("rId"));
 				request.setStatus(result.getString("status"));
-				request.setSubmitTime(result.getDate("submitTime"));
+				request.setSubmitTime(result.getTimestamp("submitTime"));
 				
 				requests.add(request);
 			}
@@ -194,12 +195,12 @@ public class DAO {
 				request.setcId(result.getInt("cId"));
 				request.setDescription(result.getString("description"));
 				request.seteId(result.getInt("eId"));
-				request.setExpiryTime(result.getDate("expiryTime"));
+				request.setExpiryTime(result.getTimestamp("expiryTime"));
 				request.setName(result.getString("name"));
 				request.setRemarks(result.getString("remarks"));
 				request.setrId(result.getInt("rId"));
 				request.setStatus(result.getString("status"));
-				request.setSubmitTime(result.getDate("submitTime"));
+				request.setSubmitTime(result.getTimestamp("submitTime"));
 				
 				requests.add(request);
 			}
@@ -238,12 +239,12 @@ public class DAO {
 				request.setcId(result.getInt("cId"));
 				request.setDescription(result.getString("description"));
 				request.seteId(result.getInt("eId"));
-				request.setExpiryTime(result.getDate("expiryTime"));
+				request.setExpiryTime(result.getTimestamp("expiryTime"));
 				request.setName(result.getString("name"));
 				request.setRemarks(result.getString("remarks"));
 				request.setrId(result.getInt("rId"));
 				request.setStatus(result.getString("status"));
-				request.setSubmitTime(result.getDate("submitTime"));
+				request.setSubmitTime(result.getTimestamp("submitTime"));
 			}
 		} finally {
 			MySqlConnection.getMySqlConnection().close();
@@ -315,12 +316,12 @@ public class DAO {
 				request.setcId(result.getInt("cId"));
 				request.setDescription(result.getString("description"));
 				request.seteId(result.getInt("eId"));
-				request.setExpiryTime(result.getDate("expiryTime"));
+				request.setExpiryTime(result.getTimestamp("expiryTime"));
 				request.setName(result.getString("name"));
 				request.setRemarks(result.getString("remarks"));
 				request.setrId(result.getInt("rId"));
 				request.setStatus(result.getString("status"));
-				request.setSubmitTime(result.getDate("submitTime"));
+				request.setSubmitTime(result.getTimestamp("submitTime"));
 				requests.add(request);
 			}
 		} finally {
@@ -342,12 +343,12 @@ public class DAO {
 				request.setcId(result.getInt("cId"));
 				request.setDescription(result.getString("description"));
 				request.seteId(result.getInt("eId"));
-				request.setExpiryTime(result.getDate("expiryTime"));
+				request.setExpiryTime(result.getTimestamp("expiryTime"));
 				request.setName(result.getString("name"));
 				request.setRemarks(result.getString("remarks"));
 				request.setrId(result.getInt("rId"));
 				request.setStatus(result.getString("status"));
-				request.setSubmitTime(result.getDate("submitTime"));
+				request.setSubmitTime(result.getTimestamp("submitTime"));
 				requests.add(request);
 			}
 		} finally {

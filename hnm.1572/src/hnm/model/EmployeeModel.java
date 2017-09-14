@@ -81,7 +81,7 @@ public class EmployeeModel {
 			Collections.sort(requests, new Comparator<Request>() {
 			    @Override
 			    public int compare(Request o1, Request o2) {
-			        return o1.getSubmitTime().compareTo(o2.getSubmitTime());
+			        return o2.getSubmitTime().compareTo(o1.getSubmitTime());
 			    }
 			});
 			break;
@@ -90,7 +90,7 @@ public class EmployeeModel {
 			Collections.sort(requests, new Comparator<Request>() {
 			    @Override
 			    public int compare(Request o1, Request o2) {
-			        return o1.getExpiryTime().compareTo(o2.getExpiryTime());
+			        return o2.getExpiryTime().compareTo(o1.getExpiryTime());
 			    }
 			});
 			break;

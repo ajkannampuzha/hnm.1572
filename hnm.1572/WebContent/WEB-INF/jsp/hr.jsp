@@ -18,8 +18,8 @@
 	 }
 </script>
 <script>
-	function checkSecondRadio(){
-		alert("here");
+	function checkRadio2(){
+		
 		if(document.getElementById("radio2").checked==true){
 			return true;
 		}else{
@@ -58,7 +58,7 @@
 				</table><br>
 				
 				<input type="submit" name="action" value="View and Handle" >
-				<!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="action" value="Show my Pending Requests" > -->
+				
 			</form>
 			<form action="hnms">
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="action" value="Show my Pending Requests" >
@@ -68,7 +68,7 @@
 		<%} %>
 		<%if(request.getAttribute("jspAction")!=null&&((String)request.getAttribute("jspAction")).equals("handle")){ %>
 			<%Request req=(Request)request.getAttribute("request"); %>
-			<form action="hnms" id="form2" onsubmit="return checkSecondRadio();">
+			<form action="hnms" id="form2" onsubmit="return checkRadio2();">
 		
 			<%List<Request> requests=(ArrayList<Request>)request.getAttribute("requests"); %>
 			<%if(requests!=null && !(requests.isEmpty())){ %>
