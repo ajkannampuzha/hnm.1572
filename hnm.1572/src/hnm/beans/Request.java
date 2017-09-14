@@ -1,6 +1,8 @@
 package hnm.beans;
 
-import java.sql.Date;
+import java.util.Date;
+
+
 
 public class Request {
 	private int rId;

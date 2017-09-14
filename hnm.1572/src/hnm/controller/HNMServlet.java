@@ -193,6 +193,8 @@ public class HNMServlet extends HttpServlet {
 				String sortBasedOn=request.getParameter("sort");
 				List<Request> requests=EmployeeModel.getRequests((Integer)request.getSession().getAttribute("userId"));
 				List<Request> sortedRequests=EmployeeModel.sortRequests(requests,sortBasedOn);
+				request.setAttribute("requests", sortedRequests);
+				request.getRequestDispatcher("/WEB-INF/jsp/employee.jsp").forward(request, response);
 				break;
 				}
 			}
