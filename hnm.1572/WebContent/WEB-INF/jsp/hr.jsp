@@ -37,7 +37,7 @@
 				<table border="1">
 				<tr><td>Select</td><td>Ticket.No</td><td>Description</td><td>Status</td><td>Remarks</td></tr>
 				<%for(Request r:requests){ %>
-					<tr><td><input type="radio" id="radio1" name="requestId" value=<%=r.getrId() %>></td><td><%=r.getrId() %></td><td><%=r.getDescription() %></td><td><%=r.getStatus() %></td><td><%=r.getRemarks() %></td></tr>
+					<tr><td><input type="radio" id="radio1" name="requestId" value=<%=r.getrId() %>></td><td><%=r.getrId() %></td><td><%=r.getDescription() %></td><td><%=r.getStatus() %></td><td><%if(r.getRemarks()!=null){%><%=r.getRemarks() %><%} %></td></tr>
 				<%} %>
 				</table><br>
 				
