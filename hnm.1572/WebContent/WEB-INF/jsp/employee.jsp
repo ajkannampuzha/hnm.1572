@@ -41,10 +41,10 @@
 		<%if(((String)request.getAttribute("jspAction")).equals("view")){ %>
 			<%List<Request> requests=(ArrayList<Request>)request.getAttribute("requests"); %>
 			<%if(requests!=null && !(requests.isEmpty())){ %>
-				<table border="1">
+				<table border="1" style="overflow-y:scroll;height:300px;width:600px;display:block;">
 				<tr><td>Select</td><td><a href="hnms?action=sort&sort=rId">Ticket.No</a></td><td>Title</td><td>Description</td><td><a href="hnms?action=sort&sort=submit">Submit Time</a></td><td><a href="hnms?action=sort&sort=expiry">Expiry Time</a></td><td><a href="hnms?action=sort&sort=status">Status</a></td><td>Remarks</td></tr>
 				<%for(Request r:requests){ %>
-					<tr><td><input type="radio" id="radio1" name="requestId" value=<%=r.getrId() %>></td><td><%=r.getrId() %></td><td><%=r.getName()%></td><td><%=r.getDescription() %></td><td><%=r.getSubmitTime()%></td><td><%=r.getExpiryTime()%></td><td><%=r.getStatus() %></td><td><%=r.getRemarks() %></td></tr>
+					<tr><td><input type="radio" id="radio1" name="requestId" value=<%=r.getrId() %>></td><td><%=r.getrId() %></td><td><%=r.getName()%></td><td><%=r.getDescription() %></td><td><%=r.getSubmitTime()%></td><td><%=r.getExpiryTime()%></td><td><%=r.getStatus() %></td><td><%if(r.getRemarks()!=null){%><%=r.getRemarks() %><%} %></td></tr>
 				<%} %>
 				</table><br>
 				<input type="hidden" name="action" value="cancel">
