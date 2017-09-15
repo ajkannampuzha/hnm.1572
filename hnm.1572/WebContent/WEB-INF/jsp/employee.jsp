@@ -7,17 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title >Employee Home</title>
-<script type="text/javascript">
-	function checkRadio(){
-		if(document.getElementById("radio1").checked==true){
-			return true;
-		}else{
-			alert("Please Select an Entry");
-			return false;
-		}
-	 }
-</script>
-
+<script type="text/javascript" src="./js/default.js"></script>
 </head>
 
 <body style="background-color: lightblue">
@@ -37,7 +27,7 @@
 			</form><br>
 		
 		
-		<form action="hnms" >
+		<form action="hnms" id="form1">
 		<%if(((String)request.getAttribute("jspAction")).equals("view")){ %>
 			<%List<Request> requests=(ArrayList<Request>)request.getAttribute("requests"); %>
 			<%if(requests!=null && !(requests.isEmpty())){ %>
@@ -48,13 +38,14 @@
 				<%} %>
 				</table><br>
 				<input type="hidden" name="action" value="cancel">
-				<input type="submit" value="Cancel Request" >
+				<input type="button" name="action" value="cancel" onclick="isOneChecked();">
+				<!-- <input type="submit" value="Cancel Request" > -->
 			</form>
 			<%}%>
 			
 		<%} %>
 		<%if(((String)request.getAttribute("jspAction")).equals("new")){ %>
-			<form action="hnms">
+			<form action="hnms" id="form2" >
 			<input type="hidden" name="action" value="add request">
 			<table >
 			<tr><td>Category</td><td><select id="categoryId" name="category">
@@ -66,10 +57,10 @@
 				
 				<%} %>
 			</select></td></tr>
-			<tr><td>Title</td><td><input type="text" name="title"></td></tr>
+			<tr><td>Title</td><td><input type="text" id="titleId" name="title"></td></tr>
 			<tr><td>Description</td><td><textarea rows="5" cols="20" id="txtID" name="description">type here</textarea></td></tr>
 			</table><br>
-			<input type="submit" value="submit request">
+			<input type="submit" value="submit request" onclick="return validateForm();">
 			</form>
 		<%} %>
 	</center>

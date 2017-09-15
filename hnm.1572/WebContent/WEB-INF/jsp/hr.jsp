@@ -7,26 +7,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>HR Home</title>
-<script type="text/javascript">
-	function checkRadio1(){
-		if(document.getElementById("radio1").checked==true){
-			return true;
-		}else{
-			alert("Select any element");
-			return false;
-		}
-	 }
-</script>
-<script>
-	function checkRadio2(){
-		
-		if(document.getElementById("radio2").checked==true){
-			return true;
-		}else{
-			alert("Select any element");
-			return false;
-		}
-	 }
+<script type="text/javascript" src="./js/default.js">
+
 
 
 </script>
@@ -43,7 +25,8 @@
 		
 			<form action="hnms">
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit"  name="action" value="view all requests">
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit"  name="action" value="View forwarded requests">	
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit"  name="action" value="View forwarded requests">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="action" value="Show my Pending Requests" >	
 			</form><br>
 		
 		
@@ -58,18 +41,18 @@
 				<%} %>
 				</table><br>
 				
-				<input type="submit" name="action" value="View and Handle" >
+				<input type="submit" name="action" value="View and Handle" onclick="return isOneChecked();" >
+				<!-- <input type="hidden" name="action" value="View and Handle">
+				<input type="button" value="View and Handle" onclick="isOneChecked(form1);"> -->
 				
 			</form>
-			<form action="hnms">
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="action" value="Show my Pending Requests" >
-			</form>
+			
 			<%}%>
 			
 		<%} %>
 		<%if(request.getAttribute("jspAction")!=null&&((String)request.getAttribute("jspAction")).equals("handle")){ %>
 			<%Request req=(Request)request.getAttribute("request"); %>
-			<form action="hnms" id="form2" >
+			<form action="hnms" id="form2" onsubmit="return checkRadio();" >
 		
 			<%List<Request> requests=(ArrayList<Request>)request.getAttribute("requests"); %>
 			<%if(requests!=null && !(requests.isEmpty())){ %>
@@ -80,9 +63,9 @@
 					<tr><td><input type="radio" id="radio2" name="rId" value=<%=r.getrId() %>></td><td><%=r.getrId() %></td><td><%=r.geteId() %></td><td><%=r.getName() %></td><td><%=r.getDescription() %></td><td><%=r.getSubmitTime() %></td><td><%=r.getExpiryTime() %></td><td><%=r.getStatus() %></td><td><input type="text" id="remarkId" name="remarks"></td></tr>
 				<%} %>
 				</table><br>
-			<input type="submit" name="action" value="Revert">
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="action" value="Resolve">
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="action" value="Forward">
+			<input type="submit" name="action" value="Revert" onclick="return checkRadio();">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="action" value="Resolve" onclick="return checkRadio();">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="action" value="Forward" onclick="return checkRadio();">
 			</form>
 			<%} %>
 		<%} %>
