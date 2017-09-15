@@ -253,6 +253,6 @@ public class HNMServlet extends HttpServlet {
 		logger.info("Initialised Successfully");
 		Timer time = new Timer(); // Instantiate Timer Object
 		ScheduledTask st = new ScheduledTask(); // Instantiate SheduledTask class
-		time.schedule(st, 0, SECS); // Create Repetitively task for every 2 minutes(in millisecs)
+		time.schedule(st, 0, SECS); // Create Repetitively task for specified time (in milliseconds defined as final)
 	}
 }

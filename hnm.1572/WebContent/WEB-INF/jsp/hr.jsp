@@ -30,8 +30,9 @@
 
 
 </script>
+
 </head>
-<body>
+<body style="background-color: lightblue">
 	<center><h2 >HR Home Page</h2></center>
 	<h4>EmpId:<%=request.getSession().getAttribute("userId") %></h4>
 	<form action="hnms">

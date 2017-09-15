@@ -10,9 +10,10 @@
 <script type="text/javascript">
 	
 </script>
+
 </head>
 
-<body>
+<body style="background-color: lightblue">
 	
 	<center><h2 >Employee Home Page</h2></center>
 	<h4>EmpId:<%=request.getSession().getAttribute("userId") %></h4>

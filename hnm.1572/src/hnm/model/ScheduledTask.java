@@ -13,7 +13,12 @@ public class ScheduledTask extends TimerTask {
 	public void run() {
 		
 		
-		DAO.executeScheduledUpdate();
+		try {
+			DAO.executeScheduledUpdate();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

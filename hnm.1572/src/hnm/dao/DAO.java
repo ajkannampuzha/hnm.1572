@@ -27,6 +27,7 @@ public class DAO {
 		Connection conn=MySqlConnection.getMySqlConnection().connect();
 		String sql="select a.role role,a.eId eId,b.level level from t_user a,t_role b where a.uId="+user.getuId()+" and a.pwd='"+user.getPwd()+"' and a.role=b.role";
 		Statement stmt=conn.createStatement();
+		boolean status=false;
 		try {
 			ResultSet result=stmt.executeQuery(sql);
 			if(result.next()){
@@ -34,12 +35,16 @@ public class DAO {
 				user.seteId(result.getInt("eId"));
 				user.setLevel(result.getInt("level"));
 				logger.info(user.getLevel());
-				return true;
+				result=null;
+				status=true;
 			}
 		} finally {
 			MySqlConnection.getMySqlConnection().close();
 		}
-		return false;
+		conn=null;
+		stmt=null;
+		sql=null;
+		return status;
 	}
 
 	public static List<Request> getRequestsOfEmployee(int eId) throws SQLException, ClassNotFoundException {
@@ -65,10 +70,13 @@ public class DAO {
 			
 				
 				requests.add(request);
+				
 			}
 		} finally {
 			MySqlConnection.getMySqlConnection().close();
 		}
+		conn=null;
+		stmt=null;
 		return requests;
 	}
 
@@ -86,6 +94,8 @@ public class DAO {
 		} finally {
 			MySqlConnection.getMySqlConnection().close();
 		}
+		conn=null;
+		stmt=null;
 		return status;
 		
 		
@@ -107,6 +117,8 @@ public class DAO {
 		} finally {
 			MySqlConnection.getMySqlConnection().close();
 		}
+		conn=null;
+		stmt=null;
 		return categories;
 	}
 
@@ -124,6 +136,8 @@ public class DAO {
 		} finally {
 			MySqlConnection.getMySqlConnection().close();
 		}
+		conn=null;
+		stmt=null;
 		return status;
 	}
 
@@ -152,32 +166,35 @@ public class DAO {
 		} finally {
 			MySqlConnection.getMySqlConnection().close();
 		}
+		conn=null;
+		stmt=null;
 		return requests;
 	}
 
-	public static void executeScheduledUpdate()  {
+	public static void executeScheduledUpdate() throws ClassNotFoundException, SQLException  {
+		Connection conn=MySqlConnection.getMySqlConnection().connect();
+		String sql="update t_request set status='escalated',level=level+1,expiryTime=date_add(curtime(),"
+				+ "interval 5 MINUTE) where level<3 and expiryTime<curtime() and "
+				+ "not status='processed' and not status='cancelled'";
+		Statement stmt=conn.createStatement();
+		logger.info("within scheduled task");
 		try{
-			Connection conn=MySqlConnection.getMySqlConnection().connect();
-			String sql="update t_request set status='escalated',level=level+1,expiryTime=date_add(curtime(),"
-					+ "interval 5 MINUTE) where level<3 and expiryTime<curtime() and "
-					+ "not status='processed' and not status='cancelled'";
-			Statement stmt=conn.createStatement();
-			boolean status=false;
 			
-			try {
+			
+			
 				int result=stmt.executeUpdate(sql);
 				if(result>0){
-					
-					status= true;
-				}
-				logger.info("rows effected:"+result);
 				
-			} finally {
+				logger.info("rows effected:"+result);
+				}
+				
+			} catch(Exception e){
+				e.printStackTrace();
+			}	finally {
 				MySqlConnection.getMySqlConnection().close();
 			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+		
+		
 		
 		
 	}
