@@ -47,7 +47,7 @@
 			</form><br>
 		
 		
-		<form action="hnms" id="form1" onsubmit="return checkRadio1();">
+		<form action="hnms" id="form1" >
 		<%if(request.getAttribute("jspAction")!=null&&((String)request.getAttribute("jspAction")).equals("view")){ %>
 			<%List<Request> requests=(ArrayList<Request>)request.getAttribute("requests"); %>
 			<%if(requests!=null && !(requests.isEmpty())){ %>
@@ -69,7 +69,7 @@
 		<%} %>
 		<%if(request.getAttribute("jspAction")!=null&&((String)request.getAttribute("jspAction")).equals("handle")){ %>
 			<%Request req=(Request)request.getAttribute("request"); %>
-			<form action="hnms" id="form2" onsubmit="return checkRadio2();">
+			<form action="hnms" id="form2" >
 		
 			<%List<Request> requests=(ArrayList<Request>)request.getAttribute("requests"); %>
 			<%if(requests!=null && !(requests.isEmpty())){ %>

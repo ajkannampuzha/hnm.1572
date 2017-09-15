@@ -8,7 +8,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title >Employee Home</title>
 <script type="text/javascript">
-	
+	function checkRadio(){
+		if(document.getElementById("radio1").checked==true){
+			return true;
+		}else{
+			alert("Please Select an Entry");
+			return false;
+		}
+	 }
 </script>
 
 </head>
@@ -37,7 +44,7 @@
 				<table border="1">
 				<tr><td>Select</td><td><a href="hnms?action=sort&sort=rId">Ticket.No</a></td><td>Title</td><td>Description</td><td><a href="hnms?action=sort&sort=submit">Submit Time</a></td><td><a href="hnms?action=sort&sort=expiry">Expiry Time</a></td><td><a href="hnms?action=sort&sort=status">Status</a></td><td>Remarks</td></tr>
 				<%for(Request r:requests){ %>
-					<tr><td><input type="radio" name="requestId" value=<%=r.getrId() %>></td><td><%=r.getrId() %></td><td><%=r.getName()%></td><td><%=r.getDescription() %></td><td><%=r.getSubmitTime()%></td><td><%=r.getExpiryTime()%></td><td><%=r.getStatus() %></td><td><%=r.getRemarks() %></td></tr>
+					<tr><td><input type="radio" id="radio1" name="requestId" value=<%=r.getrId() %>></td><td><%=r.getrId() %></td><td><%=r.getName()%></td><td><%=r.getDescription() %></td><td><%=r.getSubmitTime()%></td><td><%=r.getExpiryTime()%></td><td><%=r.getStatus() %></td><td><%=r.getRemarks() %></td></tr>
 				<%} %>
 				</table><br>
 				<input type="hidden" name="action" value="cancel">

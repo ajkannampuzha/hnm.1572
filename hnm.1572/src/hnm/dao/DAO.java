@@ -224,6 +224,8 @@ public class DAO {
 		} finally {
 			MySqlConnection.getMySqlConnection().close();
 		}
+		conn=null;
+		stmt=null;
 		return requests;
 	}
 
@@ -241,6 +243,8 @@ public class DAO {
 		} finally {
 			MySqlConnection.getMySqlConnection().close();
 		}
+		conn=null;
+		stmt=null;
 		return status;
 	}
 
@@ -266,6 +270,8 @@ public class DAO {
 		} finally {
 			MySqlConnection.getMySqlConnection().close();
 		}
+		conn=null;
+		stmt=null;
 		return request;
 	}
 
@@ -283,6 +289,8 @@ public class DAO {
 		} finally {
 			MySqlConnection.getMySqlConnection().close();
 		}
+		conn=null;
+		stmt=null;
 		return status;
 	}
 
@@ -300,6 +308,8 @@ public class DAO {
 		} finally {
 			MySqlConnection.getMySqlConnection().close();
 		}
+		conn=null;
+		stmt=null;
 		return status;
 	}
 
@@ -317,6 +327,8 @@ public class DAO {
 		} finally {
 			MySqlConnection.getMySqlConnection().close();
 		}
+		conn=null;
+		stmt=null;
 		return status;
 	}
 
@@ -344,6 +356,8 @@ public class DAO {
 		} finally {
 			MySqlConnection.getMySqlConnection().close();
 		}
+		conn=null;
+		stmt=null;
 		return requests;
 	}
 
@@ -371,6 +385,8 @@ public class DAO {
 		} finally {
 			MySqlConnection.getMySqlConnection().close();
 		}
+		conn=null;
+		stmt=null;
 		return requests;
 	}
 
