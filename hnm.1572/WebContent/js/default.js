@@ -16,7 +16,7 @@
 		var title=document.getElementById("titleId").value.trim();
 		var text=document.getElementById("txtID").value.trim();
 		
-		if(text.length ==0 || title.length==0 ){
+		if(text.length ==0 || title.length==0 ||text=="type here"){
 			alert("Fill all required fields");
 			return false;
 		}else{

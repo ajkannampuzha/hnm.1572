@@ -37,9 +37,9 @@
 					<tr><td><input type="radio" id="radio1" name="requestId" value=<%=r.getrId() %>></td><td><%=r.getrId() %></td><td><%=r.getName()%></td><td><%=r.getDescription() %></td><td><%=r.getSubmitTime()%></td><td><%=r.getExpiryTime()%></td><td><%=r.getStatus() %></td><td><%=r.getRemarks() %></td></tr>
 				<%} %>
 				</table><br>
-				<input type="hidden" name="action" value="cancel">
-				<input type="button" name="action" value="cancel" onclick="isOneChecked();">
-				<!-- <input type="submit" value="Cancel Request" > -->
+				<!-- <input type="hidden" name="action" value="cancel">
+				<input type="button" name="action" value="cancel" onclick="isOneChecked();"> -->
+				<input type="submit" name="action" value="cancel" onclick="return isOneChecked();">
 			</form>
 			<%}%>
 			
