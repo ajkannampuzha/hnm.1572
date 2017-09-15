@@ -13,11 +13,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import java.util.*;
 
 import hnm.beans.*;
 
-import org.apache.log4j.Logger;
+
 
 
 public class HNMServlet extends HttpServlet {
@@ -28,10 +30,38 @@ public class HNMServlet extends HttpServlet {
 		if(request.getParameter("action")==null){
 			response.sendRedirect("login.jsp");
 		}else{
-		logger.info(request.getParameter("action"));
+			logger.info(request.getParameter("action"));
+			takeDecisionOnAction(request,response);
+			
+		}
+	}
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.debug("inside dopost");
+		User user=getUserObject(Integer.parseInt(request.getParameter("userId")),request.getParameter("password"));
+		logger.debug(user.getPwd());
+		//check for the user in database and return his object if present else null
+		if(Login.validate(user)){
+			logger.info(user.getRole());
+			request.getSession().setAttribute("userId",user.getuId());
+			request.getSession().setAttribute("user", user);
+			moveToUserBasedUI(user,request,response);
+		}else{
+			response.sendRedirect("login.jsp?error=login fail");
+		}
+	}
+
+	//create a user object from input values
+	private User getUserObject(int uId, String password) {
+		User user=new User();
+		user.setuId(uId);
+		user.setPwd(password);
+		return user;
+	}
+	private void takeDecisionOnAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		switch(request.getParameter("action")){
-	
+		
 		case "new request":{//if employee opts for a new request
+			
 			if(request.getSession().getAttribute("categories")==null){
 				logger.debug("inside new category");
 				List<Category> categories=EmployeeModel.getCategories();
@@ -142,7 +172,6 @@ public class HNMServlet extends HttpServlet {
 			}
 		case "Show my Pending Requests":{
 			int attenderId=(Integer)request.getSession().getAttribute("userId");
-			//Request request1=HRModel.getRequestOfHR(attenderId);
 			List<Request> requests=HRModel.getRequestOfHR(attenderId);
 			if(requests.isEmpty()){
 				request.setAttribute("error", "no requests selected");
@@ -185,63 +214,63 @@ public class HNMServlet extends HttpServlet {
 			break;
 			}
 		case "logout":{//if someone logout
+			logger.info("inside logout");
 			request.getSession().invalidate();
 			response.sendRedirect("login.jsp");
+		}
+			break;
+		case "sort":{
+			String sortBasedOn=request.getParameter("sort");
+			List<Request> requests=EmployeeModel.getRequests((Integer)request.getSession().getAttribute("userId"));
+			List<Request> sortedRequests=EmployeeModel.sortRequests(requests,sortBasedOn);
+			request.setAttribute("jspAction", "view");
+			request.setAttribute("requests", sortedRequests);
+			request.getRequestDispatcher("/WEB-INF/jsp/employee.jsp").forward(request, response);
 			break;
 			}
 		}
-		}
+		
 	}
 
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		logger.debug("inside dopost");
-		//create a user object from input values
-		User user=new User();
-		user.setuId(Integer.parseInt(request.getParameter("userId")));
-		user.setPwd(request.getParameter("password"));
-		logger.debug(user.getPwd());
-		//check for the user in database and return his object if present else null
-		if(Login.validate(user)){
-			logger.info(user.getRole());
-			request.getSession().setAttribute("userId",user.getuId());
-			request.getSession().setAttribute("user", user);
-			switch(user.getRole()){
-			case "employee":{
-				request.setAttribute("jspAction", "view");
-				List<Request> requests=EmployeeModel.getRequests(user.geteId());
-				request.setAttribute("requests", requests);
-				request.getRequestDispatcher("/WEB-INF/jsp/employee.jsp").forward(request, response);
-				logger.debug("reached after employee");
-				break;
-				}
-			case "hr":{
-				
-				request.setAttribute("role", "hr");
-				request.getRequestDispatcher("/WEB-INF/jsp/hr.jsp").forward(request, response);
-				break;
-				}
-			case "mgr":{
-				request.setAttribute("role", "mgr");
-				request.getRequestDispatcher("/WEB-INF/jsp/hr.jsp").forward(request, response);
-				break;
-				}
-			case "ceo":{
-				request.setAttribute("role", "ceo");
-				request.getRequestDispatcher("/WEB-INF/jsp/hr.jsp").forward(request, response);
-				break;
-				}
+	
+	private void moveToUserBasedUI(User user, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		switch(user.getRole()){
+		case "employee":{
+			request.setAttribute("jspAction", "view");
+			List<Request> requests=EmployeeModel.getRequests(user.geteId());
+			request.setAttribute("requests", requests);
+			request.getRequestDispatcher("/WEB-INF/jsp/employee.jsp").forward(request, response);
+			logger.debug("reached after employee");
+			break;
 			}
+		case "hr":{
 			
-		}else{
-			response.sendRedirect("login.jsp?error=login fail");
+			request.setAttribute("role", "hr");
+			request.getRequestDispatcher("/WEB-INF/jsp/hr.jsp").forward(request, response);
+			break;
+			}
+		case "mgr":{
+			request.setAttribute("role", "mgr");
+			request.getRequestDispatcher("/WEB-INF/jsp/hr.jsp").forward(request, response);
+			break;
+			}
+		case "ceo":{
+			request.setAttribute("role", "ceo");
+			request.getRequestDispatcher("/WEB-INF/jsp/hr.jsp").forward(request, response);
+			break;
+			}
 		}
+		
 	}
+
+
 	@Override
 	public void init() throws ServletException {
 		logger.info("Initialised Successfully");
 		Timer time = new Timer(); // Instantiate Timer Object
 		ScheduledTask st = new ScheduledTask(); // Instantiate SheduledTask class
-		time.schedule(st, 0, SECS); // Create Repetitively task for every 2 minutes(in millisecs)
+		time.schedule(st, 0, SECS); // Create Repetitively task for specified time (in milliseconds defined as final)
 	}
 }

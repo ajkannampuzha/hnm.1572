@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Login</title>
+
 <script type="text/javascript">
 	function validate(){
 		document.getElementById("p1").innerHTML="";
@@ -33,18 +34,18 @@
 		if(input.value.length===0){
 			input.style.backgroundColor="white";
 		}else{
-			input.style.backgroundColor="yellow";
+			input.style.backgroundColor="gray";
 	
 		}
 	}
 </script>
 </head>
-<body>
+<body style="background-color: gray;">
 <div>
 	<div>
 		<div>
 		<%if(request.getParameter("error")==null){ %>
-		<h1 style="background-color: blue; ">Login</h1>
+		<h1 style="background-color: lightblue; ">Login</h1>
 		</div>
 		<div>
 		<%}else{ %>

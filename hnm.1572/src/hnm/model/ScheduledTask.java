@@ -12,8 +12,9 @@ public class ScheduledTask extends TimerTask {
 	
 	public void run() {
 		
+	
+			DAO.executeScheduledUpdate();
 		
-		DAO.executeScheduledUpdate();
 		
 	}
 

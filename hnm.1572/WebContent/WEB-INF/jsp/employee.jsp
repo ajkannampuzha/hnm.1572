@@ -7,12 +7,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title >Employee Home</title>
-<script type="text/javascript">
-	
-</script>
+<script type="text/javascript" src="./js/default.js"></script>
 </head>
 
-<body>
+<body style="background-color: lightblue">
+	
 	<center><h2 >Employee Home Page</h2></center>
 	<h4>EmpId:<%=request.getSession().getAttribute("userId") %></h4>
 	<form action="hnms">
@@ -28,24 +27,25 @@
 			</form><br>
 		
 		
-		<form action="hnms" >
+		<form action="hnms" id="form1">
 		<%if(((String)request.getAttribute("jspAction")).equals("view")){ %>
 			<%List<Request> requests=(ArrayList<Request>)request.getAttribute("requests"); %>
 			<%if(requests!=null && !(requests.isEmpty())){ %>
-				<table border="1">
-				<tr><td>Select</td><td>Ticket.No</td><td>Description</td><td>Status</td><td>Remarks</td></tr>
+				<table border="1" style="overflow:scroll;height: 300px;width: 700px;display: block; ">
+				<tr><td>Select</td><td><a href="hnms?action=sort&sort=rId">Ticket.No</a></td><td>Title</td><td>Description</td><td><a href="hnms?action=sort&sort=submit">Submit Time</a></td><td><a href="hnms?action=sort&sort=expiry">Expiry Time</a></td><td><a href="hnms?action=sort&sort=status">Status</a></td><td>Remarks</td></tr>
 				<%for(Request r:requests){ %>
-					<tr><td><input type="radio" name="requestId" value=<%=r.getrId() %>></td><td><%=r.getrId() %></td><td><%=r.getDescription() %></td><td><%=r.getStatus() %></td><td><%=r.getRemarks() %></td></tr>
+					<tr><td><input type="radio" id="radio1" name="requestId" value=<%=r.getrId() %>></td><td><%=r.getrId() %></td><td><%=r.getName()%></td><td><%=r.getDescription() %></td><td><%=r.getSubmitTime()%></td><td><%=r.getExpiryTime()%></td><td><%=r.getStatus() %></td><td><%if(r.getRemarks()!=null){%><%=r.getRemarks() %><%} %></td></tr>
 				<%} %>
 				</table><br>
-				<input type="hidden" name="action" value="cancel">
-				<input type="submit" value="Cancel Request" >
+				<!-- <input type="hidden" name="action" value="cancel">
+				<input type="button" name="action" value="cancel" onclick="isOneChecked();"> -->
+				<input type="submit" name="action" value="cancel" onclick="return isOneChecked();">
 			</form>
 			<%}%>
 			
 		<%} %>
 		<%if(((String)request.getAttribute("jspAction")).equals("new")){ %>
-			<form action="hnms">
+			<form action="hnms" id="form2" >
 			<input type="hidden" name="action" value="add request">
 			<table >
 			<tr><td>Category</td><td><select id="categoryId" name="category">
@@ -57,10 +57,10 @@
 				
 				<%} %>
 			</select></td></tr>
-			<tr><td>Title</td><td><input type="text" name="title"></td></tr>
+			<tr><td>Title</td><td><input type="text" id="titleId" name="title"></td></tr>
 			<tr><td>Description</td><td><textarea rows="5" cols="20" id="txtID" name="description">type here</textarea></td></tr>
 			</table><br>
-			<input type="submit" value="submit request">
+			<input type="submit" value="submit request" onclick="return validateForm();">
 			</form>
 		<%} %>
 	</center>
