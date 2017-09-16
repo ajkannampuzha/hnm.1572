@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-
+//uncomment for json impl
 /*import com.google.gson.Gson;*/
 
 import java.util.*;
