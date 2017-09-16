@@ -1,62 +1,82 @@
 package hnm.model;
 
 import hnm.beans.Request;
-import hnm.dao.DAO;
+import hnm.dao.implementation.DAOImplementation;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class HRModel {
+	
+	public static HRModel hrModel;
+	public HRModel() {
+		hrModel=this;
+	}
+	public static HRModel getInstance(){
+		if(hrModel==null){
+			new HRModel();
+		}
+		return hrModel;
+	}
+	public static void dropInstance(){
+		DAOImplementation.dropInstance();
+		hrModel=null;
+	}
 
-	public static List<Request> getRequests() {
+	public List<Request> getRequests() {
 		
 	
-			return DAO.getAllRequests();
+			return DAOImplementation.getInstance().getAllRequests();
 		
 	}
 
-	public static boolean updateRequest(int rId, int attenderId) {
+	public boolean updateRequest(int rId, int attenderId) {
 		
-			return DAO.updateRequest(rId,attenderId);
+			return DAOImplementation.getInstance().updateRequest(rId,attenderId);
 		
 		
 	}
 
-	public static Request getRequest(int rId) {
+	public Request getRequest(int rId) {
 		
 		
-			return DAO.getRequest(rId);
-		
-	}
-
-	public static boolean revert(int rId) {
-		
-			return DAO.revert(rId);
+			return DAOImplementation.getInstance().getRequest(rId);
 		
 	}
 
-	public static boolean resolve(int rId, String remarks) {
+	public boolean revert(int rId) {
 		
-			return DAO.resolve(rId,remarks);
-		
-	}
-
-	public static boolean forward(int rId) {
-		
-			return DAO.forward(rId);
+			return DAOImplementation.getInstance().revert(rId);
 		
 	}
 
-	public static List<Request> getRequestOfHR(int attenderId) {
+	public boolean resolve(int rId, String remarks) {
 		
-			return DAO.getRequestOfHR(attenderId);
+			return DAOImplementation.getInstance().resolve(rId,remarks);
 		
 	}
 
-	public static List<Request> getForwardedRequests(int level) {
+	public boolean forward(int rId) {
 		
-			return DAO.getForwardedRequests(level);
+			return DAOImplementation.getInstance().forward(rId);
 		
+	}
+
+	public List<Request> getRequestOfHR(int attenderId) {
+		
+			return DAOImplementation.getInstance().getRequestOfHR(attenderId);
+		
+	}
+
+	public List<Request> getForwardedRequests(int level) {
+		
+			return DAOImplementation.getInstance().getForwardedRequests(level);
+		
+	}
+
+	public int getEscalatedRequestCount(int level) {
+		
+		return DAOImplementation.getInstance().getEscalatedRequestCount(level);
 	}
 	
 

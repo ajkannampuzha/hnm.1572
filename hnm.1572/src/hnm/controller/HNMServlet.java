@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+/*import com.google.gson.Gson;*/
+
 import java.util.*;
 
 import hnm.beans.*;
@@ -64,7 +66,7 @@ public class HNMServlet extends HttpServlet {
 			
 			if(request.getSession().getAttribute("categories")==null){
 				logger.debug("inside new category");
-				List<Category> categories=EmployeeModel.getCategories();
+				List<Category> categories=EmployeeModel.getInstance().getCategories();
 				logger.debug(categories.get(0));
 				request.getSession().setAttribute("categories", categories);
 			}
@@ -74,7 +76,7 @@ public class HNMServlet extends HttpServlet {
 			}
 		case "view requests":{//if employee demands to see his request history
 			request.setAttribute("jspAction", "view");
-			List<Request> requests=EmployeeModel.getRequests((Integer)request.getSession().getAttribute("userId"));
+			List<Request> requests=EmployeeModel.getInstance().getRequests((Integer)request.getSession().getAttribute("userId"));
 			if(requests!=null && requests.isEmpty()){
 				request.setAttribute("error", "No records found");
 			}
@@ -85,12 +87,12 @@ public class HNMServlet extends HttpServlet {
 			}
 		case "cancel":{//if an employee cancel his request
 			int rId=Integer.parseInt(request.getParameter("requestId"));
-			boolean status=EmployeeModel.cancelRequest(rId);
+			boolean status=EmployeeModel.getInstance().cancelRequest(rId);
 			if(!status){
 				request.setAttribute("error", "Sorry.This request cannot be cancelled.");
 			}
 			request.setAttribute("jspAction", "view");
-			List<Request> requests=EmployeeModel.getRequests((Integer)request.getSession().getAttribute("userId"));
+			List<Request> requests=EmployeeModel.getInstance().getRequests((Integer)request.getSession().getAttribute("userId"));
 			request.setAttribute("requests", requests);
 			request.getRequestDispatcher("/WEB-INF/jsp/employee.jsp").forward(request, response);
 			break;
@@ -104,12 +106,16 @@ public class HNMServlet extends HttpServlet {
 			logger.info(request.getSession().getAttribute("userId"));
 			request1.seteId((Integer)request.getSession().getAttribute("userId"));
 			request1.setName(request.getParameter("title"));
-			boolean status=EmployeeModel.addRequest(request1);
+			//comment the above section and uncomment below fragment along with js file for json impl
+			/*String str=request.getParameter("ob");
+			Gson gson=new Gson();
+			Request request1=gson.fromJson(str, Request.class);*/
+			boolean status=EmployeeModel.getInstance().addRequest(request1);
 			if(!status){
 				request.setAttribute("error", "Something went wrong!!");
 			}
 			request.setAttribute("jspAction", "view");
-			List<Request> requests=EmployeeModel.getRequests((Integer)request.getSession().getAttribute("userId"));
+			List<Request> requests=EmployeeModel.getInstance().getRequests((Integer)request.getSession().getAttribute("userId"));
 			if(requests!=null && requests.isEmpty()){
 				request.setAttribute("error", "No records found");
 			}
@@ -119,7 +125,7 @@ public class HNMServlet extends HttpServlet {
 			}
 		case "cancelled requests":{//if an employee opt to see all his cancelled requests
 			request.setAttribute("jspAction", "view");
-			List<Request> requests=EmployeeModel.getCancelledRequests((Integer)request.getSession().getAttribute("userId"));
+			List<Request> requests=EmployeeModel.getInstance().getCancelledRequests((Integer)request.getSession().getAttribute("userId"));
 			if(requests!=null && requests.isEmpty()){
 				request.setAttribute("error", "No records found");
 			}
@@ -129,7 +135,11 @@ public class HNMServlet extends HttpServlet {
 			}
 		case "view all requests":{
 			request.setAttribute("jspAction", "view");
-			List<Request> requests=HRModel.getRequests();
+			List<Request> requests=HRModel.getInstance().getRequests();
+			User user=(User)request.getSession().getAttribute("user");
+			int level=user.getLevel();
+			int count=HRModel.getInstance().getEscalatedRequestCount(level);
+			request.setAttribute("note", count+" requests forwarded to official");
 			if(requests!=null && requests.isEmpty()){
 				request.setAttribute("error", "No records found");
 			}
@@ -141,7 +151,7 @@ public class HNMServlet extends HttpServlet {
 			User user=(User)request.getSession().getAttribute("user");
 			int level=user.getLevel();
 			logger.info(level);
-			List<Request> requests=HRModel.getForwardedRequests(level);
+			List<Request> requests=HRModel.getInstance().getForwardedRequests(level);
 			if(requests.isEmpty()){
 				request.setAttribute("error", "No records found");
 				request.getRequestDispatcher("/WEB-INF/jsp/hr.jsp").forward(request, response);
@@ -155,9 +165,9 @@ public class HNMServlet extends HttpServlet {
 		case "View and Handle":{
 			int attenderId=(Integer)request.getSession().getAttribute("userId");
 			int rId=Integer.parseInt(request.getParameter("requestId"));
-			boolean status=HRModel.updateRequest(rId,attenderId);
+			boolean status=HRModel.getInstance().updateRequest(rId,attenderId);
 			if(status){
-				Request request1=HRModel.getRequest(rId);
+				Request request1=HRModel.getInstance().getRequest(rId);
 				List<Request> requests=new ArrayList<Request>();
 				requests.add(request1);
 				request.setAttribute("requests", requests);
@@ -172,7 +182,7 @@ public class HNMServlet extends HttpServlet {
 			}
 		case "Show my Pending Requests":{
 			int attenderId=(Integer)request.getSession().getAttribute("userId");
-			List<Request> requests=HRModel.getRequestOfHR(attenderId);
+			List<Request> requests=HRModel.getInstance().getRequestOfHR(attenderId);
 			if(requests.isEmpty()){
 				request.setAttribute("error", "no requests selected");
 				request.getRequestDispatcher("/WEB-INF/jsp/hr.jsp").forward(request, response);
@@ -187,7 +197,7 @@ public class HNMServlet extends HttpServlet {
 		case "Revert":{
 			int rId=Integer.parseInt(request.getParameter("rId"));
 			
-			if(HRModel.revert(rId)){
+			if(HRModel.getInstance().revert(rId)){
 				request.getRequestDispatcher("/WEB-INF/jsp/hr.jsp").forward(request, response);
 			}else{
 				request.setAttribute("error", "cannot revert");
@@ -197,7 +207,7 @@ public class HNMServlet extends HttpServlet {
 		case "Resolve":{
 			int rId=Integer.parseInt(request.getParameter("rId"));
 			String remarks=request.getParameter("remarks");
-			if(HRModel.resolve(rId,remarks)){
+			if(HRModel.getInstance().resolve(rId,remarks)){
 				request.getRequestDispatcher("/WEB-INF/jsp/hr.jsp").forward(request, response);
 			}else{
 				request.setAttribute("error", "cannot resolve");
@@ -206,7 +216,7 @@ public class HNMServlet extends HttpServlet {
 			}
 		case "Forward":{
 			int rId=Integer.parseInt(request.getParameter("rId"));
-			if(HRModel.forward(rId)){
+			if(HRModel.getInstance().forward(rId)){
 				request.getRequestDispatcher("/WEB-INF/jsp/hr.jsp").forward(request, response);
 			}else{
 				request.setAttribute("error", "cannot forward");
@@ -214,6 +224,8 @@ public class HNMServlet extends HttpServlet {
 			break;
 			}
 		case "logout":{//if someone logout
+			EmployeeModel.dropInstance();
+			HRModel.dropInstance();
 			logger.info("inside logout");
 			request.getSession().invalidate();
 			response.sendRedirect("login.jsp");
@@ -221,8 +233,8 @@ public class HNMServlet extends HttpServlet {
 			break;
 		case "sort":{
 			String sortBasedOn=request.getParameter("sort");
-			List<Request> requests=EmployeeModel.getRequests((Integer)request.getSession().getAttribute("userId"));
-			List<Request> sortedRequests=EmployeeModel.sortRequests(requests,sortBasedOn);
+			List<Request> requests=EmployeeModel.getInstance().getRequests((Integer)request.getSession().getAttribute("userId"));
+			List<Request> sortedRequests=EmployeeModel.getInstance().sortRequests(requests,sortBasedOn);
 			request.setAttribute("jspAction", "view");
 			request.setAttribute("requests", sortedRequests);
 			request.getRequestDispatcher("/WEB-INF/jsp/employee.jsp").forward(request, response);
@@ -239,7 +251,7 @@ public class HNMServlet extends HttpServlet {
 		switch(user.getRole()){
 		case "employee":{
 			request.setAttribute("jspAction", "view");
-			List<Request> requests=EmployeeModel.getRequests(user.geteId());
+			List<Request> requests=EmployeeModel.getInstance().getRequests(user.geteId());
 			request.setAttribute("requests", requests);
 			request.getRequestDispatcher("/WEB-INF/jsp/employee.jsp").forward(request, response);
 			logger.debug("reached after employee");

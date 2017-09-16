@@ -1,6 +1,8 @@
 package hnm.beans;
 
-public class Category {
+import java.io.Serializable;
+
+public class Category implements Serializable {
 	private int cId;
 	private String name;
 	private int eta;//in minutes

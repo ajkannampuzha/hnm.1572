@@ -1,7 +1,7 @@
 package hnm.model;
 
 
-import hnm.dao.DAO;
+import hnm.dao.implementation.DAOImplementation;
 
 import java.sql.SQLException;
 import java.util.TimerTask;
@@ -13,7 +13,7 @@ public class ScheduledTask extends TimerTask {
 	public void run() {
 		
 	
-			DAO.executeScheduledUpdate();
+			DAOImplementation.getInstance().executeScheduledUpdate();
 		
 		
 	}

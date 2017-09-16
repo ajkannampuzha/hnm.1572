@@ -7,11 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>HR Home</title>
-<script type="text/javascript" src="./js/default.js">
-
-
-
-</script>
+<script type="text/javascript" src="./js/default.js"></script>
 
 </head>
 <body style="background-color: lightblue">
@@ -72,7 +68,10 @@
 	</center>
 
 	<%if(request.getAttribute("error")!=null){ %>
-		<h6 style="color: red;">Error:<%=request.getAttribute("error") %></h6>
+		<h6 style="color: red;">Error:<%=request.getAttribute("error") %></h6><br>
+	<%} %>
+	<%if(request.getAttribute("note")!=null){ %>
+		<h6 style="color:blue;">Note:<%=request.getAttribute("note") %></h6>
 	<%} %>
 </body>
 </html>

@@ -1,8 +1,9 @@
 package hnm.beans;
 
+import java.io.Serializable;
 import java.sql.Timestamp;;
 
-public class Request {
+public class Request implements Serializable {
 	private int rId;
 	private int eId;
 	private int cId;

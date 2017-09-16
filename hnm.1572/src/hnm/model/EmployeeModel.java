@@ -3,6 +3,7 @@ package hnm.model;
 import hnm.beans.Category;
 import hnm.beans.Request;
 import hnm.dao.DAO;
+import hnm.dao.implementation.DAOImplementation;
 
 import java.sql.SQLException;
 import java.util.Collections;
@@ -10,43 +11,58 @@ import java.util.Comparator;
 import java.util.List;
 
 public class EmployeeModel {
-
-	public static List<Request> getRequests(int eId) {
+	
+	public static EmployeeModel employeeModel;
+	public EmployeeModel() {
+		employeeModel=this;
+	}
+	public static EmployeeModel getInstance(){
+		if(employeeModel==null){
+			new EmployeeModel();
+		}
+		return employeeModel;
+	}
+	public static void dropInstance(){
+		DAOImplementation.dropInstance();
+		employeeModel=null;
+	}
+	
+	public List<Request> getRequests(int eId) {
 		
 		
-			return DAO.getRequestsOfEmployee(eId);
+			return DAOImplementation.getInstance().getRequestsOfEmployee(eId);
 		
 		
 	}
 
-	public static boolean cancelRequest(int rId) {
+	public boolean cancelRequest(int rId) {
 		
-			return DAO.cancelRequest(rId);
+			return DAOImplementation.getInstance().cancelRequest(rId);
 		
 		
 	}
 
-	public static List<Category> getCategories() {
+	public List<Category> getCategories() {
 		
 	
-			return DAO.getCategoryList();
+			return DAOImplementation.getInstance().getCategoryList();
 		
 	}
 
-	public static boolean addRequest(Request request) {
+	public boolean addRequest(Request request) {
 		
 	
-			return DAO.addRequest(request);
+			return DAOImplementation.getInstance().addRequest(request);
 		
 	}
 
-	public static List<Request> getCancelledRequests(Integer eId) {
+	public List<Request> getCancelledRequests(Integer eId) {
 		
-			return DAO.getCancelledRequestsOfEmployee(eId);
+			return DAOImplementation.getInstance().getCancelledRequestsOfEmployee(eId);
 		
 	}
 
-	public static List<Request> sortRequests(List<Request> requests,
+	public List<Request> sortRequests(List<Request> requests,
 			String sortBasedOn) {
 		switch (sortBasedOn){
 		case "rId":{

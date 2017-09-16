@@ -15,11 +15,20 @@
 	function validateForm(){
 		var title=document.getElementById("titleId").value.trim();
 		var text=document.getElementById("txtID").value.trim();
+		var category=document.getElementById("categoryId").value;
 		
 		if(text.length ==0 || title.length==0 ||text=="type here"){
 			alert("Fill all required fields");
 			return false;
 		}else{
+			//uncomment the below fragment along with code in java for json impl
+			/*var jObject={"name":title,"description":text,"cId":category};
+			var str=JSON.stringify(jObject);
+			alert(str);
+			document.getElementById("hId").value=str;
+			document.getElementById("titleId").value="nil";
+			document.getElementById("txtID").value="nil";
+			document.getElementById("categoryId").value="nil";*/
 			return true;
 		}
 	} 

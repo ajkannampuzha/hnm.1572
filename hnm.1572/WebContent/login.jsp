@@ -16,7 +16,7 @@
 		if(id.length===0 || pass.length===0 ||isNaN(id)){
 			
 			if(id.length===0 ){
-				document.getElementById("p1").innerHTML="Invalid User Id";
+				document.getElementById("p1").innerHTML="Enter User Id";
 			}
 			if(pass.length===0){
 				document.getElementById("p2").innerHTML="password empty";
